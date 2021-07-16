@@ -6,24 +6,50 @@ import Button from './components/common/button/button';
 
 export default function App() {
     const [list, setList] = useState(null);
+    const [curItem, setCurItem] = useState(null);
+
+    const refItem = useRef();
     const refList = useRef();
+
+    const setListHandler = () => {
+        const input = refList.current.value.trim();
+        console.log(input);
+        if(input === "") {
+            return console.log("Empty input");
+        } else {
+            const _list = list ? [...list] : [];
+
+            _list.push(refList.current.value);
+            setList(_list);
+            refList.current.value = "";
+        };
+    };
+
+    const setCurItemHandler = (e) => {
+        console.log(e.target.id);
+        const _curItem = e.target.id;
+
+        setCurItem(_curItem);
+    };
+
+    const removeListItemHandler = () => {
+        const _list = list ? [...list] : null;
+
+        if(_list) {
+            _list.splice(curItem, 1);
+            setList(_list);
+        } else {
+            return console.log("An item must be selected prior to deleting");
+        };
+    };
 
     const displayList = list ? list.map((li, index) => {
         return (
-            <ListItems key={index}>
+            <ListItems key={index} id={index} onClick={(e) => setCurItemHandler(e)}>
                 {li}
             </ListItems>
         );
-    }) : <ListItems>Add new items to extend list!</ListItems>;
-
-    const setListHandler = () => {
-        console.log(refList.current.value);
-         
-        const _list = list ? [...list] : [];
-
-        _list.push(refList.current.value);
-        setList(_list);
-    };
+    }) : <p>Add new items to extend list!</p>;
 
     return (
         <>
@@ -39,8 +65,8 @@ export default function App() {
             </ContentContainer>
 
             <ButtonContainer>
-                <Button onClick={setListHandler}>Add a new Item</Button>
-                <Button>Remove an existing Item</Button>
+                <Button onClick={setListHandler} >Add a new Item</Button>
+                <Button onClick={removeListItemHandler}>Remove an existing Item</Button>
             </ButtonContainer>
         </>
     );
@@ -70,11 +96,12 @@ const ItemInput = styled.input`
     outline: none;
 `;
 
-const ListItems = styled.li`
-    padding-left: 15px;
-    padding-top: 15px;
-    list-style: none;
-    text-decoration: none;
+const ListItems = styled.button`
+    display: block;
+    width: 98%;
+    background: white;
+    margin: 2.5px auto;
+    text-align: center;
 `;
 
 const ButtonContainer = styled.div`
