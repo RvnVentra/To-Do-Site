@@ -14,7 +14,7 @@ export default function App() {
 
     const setListHandler = () => {
         const input = refList.current.value.trim();
-
+        
         if(input === "") {
             return console.log("Empty input");
         } else {
@@ -34,6 +34,12 @@ export default function App() {
 
     const setDarkModeHandler = () => {
         setDarkMode(!darkMode);
+    };
+
+    const enterKeyHandler = (event) => {
+        if(event.key === "Enter") {
+            setListHandler();
+        }
     };
 
     const removeListItemHandler = () => {
@@ -69,7 +75,12 @@ export default function App() {
 
             <ContentContainer darkMode={darkMode}>
                 <InputContainer darkMode={darkMode}>
-                    <ItemInput ref={refList} darkMode={darkMode} placeholder="Add new items to list" />
+                    <ItemInput 
+                        ref={refList} 
+                        darkMode={darkMode} 
+                        placeholder="Add new items to list"
+                        onKeyPress={enterKeyHandler}
+                    />
                 </InputContainer>
                 {displayList}
             </ContentContainer>
