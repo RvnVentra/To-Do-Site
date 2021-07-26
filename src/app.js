@@ -59,7 +59,7 @@ export default function App() {
                 {li}
             </ListItems>
         );
-    }) : <p>Add new items to extend list!</p>;
+    }) : <Initial>Add new items to extend list!</Initial>;
 
     return (
         <>
@@ -111,6 +111,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   };
+`;
+
+const Initial = styled.p`
+    text-align: center;
 `;
 
 const ContentContainer = styled.div`
